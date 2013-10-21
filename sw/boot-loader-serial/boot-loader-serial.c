@@ -42,7 +42,7 @@
 ----------------------------------------------------------------*/
 
 #include "amber_registers.h"
-#include "stdio.h"
+#include "/home/joel/data/repo/hdl/amber/trunk/sw/mini-libc/stdio.h"
 #include "boot-loader.h"
 #include "fpga-version.h"
 
