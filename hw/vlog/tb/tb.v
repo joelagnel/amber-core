@@ -40,15 +40,15 @@
 
 `timescale  1 ps / 1 ps
 
-`include "system_config_defines.v"
-`include "global_defines.v"
+`include "../system/system_config_defines.v"
+`include "../tb/global_defines.v"
 
 
 module tb();
 
 `include "debug_functions.v"
-`include "system_functions.v"
-`include "memory_configuration.v"
+`include "../system/system_functions.v"
+`include "../system/memory_configuration.v"
 
 reg                     sysrst;
 `ifdef XILINX_VIRTEX6_FPGA  

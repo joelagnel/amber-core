@@ -61,7 +61,7 @@ input                       mrxdv_i
 );
 
 `include "debug_functions.v"
-`include "system_functions.v"
+`include "../system/system_functions.v"
 
 // mxt state machine
 localparam IDLE = 4'd0;

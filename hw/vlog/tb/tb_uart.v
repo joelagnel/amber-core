@@ -39,8 +39,8 @@
 //////////////////////////////////////////////////////////////////
 
 `timescale  1 ps / 1 ps
-`include "system_config_defines.v"
-`include "global_defines.v"
+`include "../system/system_config_defines.v"
+`include "../tb/global_defines.v"
 
 
 module tb_uart (

@@ -1635,7 +1635,7 @@ assign dabt = dabt_reg || i_dabt;
 // ========================================================
 //synopsys translate_off
 
-`include "debug_functions.v"
+`include "../tb/debug_functions.v"
 
 a23_decompile  u_decompile (
     .i_clk                      ( i_clk                            ),
