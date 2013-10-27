@@ -77,7 +77,7 @@ input                       i_wb_err
 
 );
 
-`include "memory_configuration.v"
+`include "../system/memory_configuration.v"
 
 wire                        cache_stall;
 wire                        wb_stall;
