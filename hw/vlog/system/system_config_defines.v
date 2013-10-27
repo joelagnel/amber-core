@@ -126,7 +126,7 @@
     `define MAIN_MEM_FILE           "not-defined"
 `endif
 `ifndef BOOT_MEM_FILE
-    `define BOOT_MEM_FILE           "../tests/add.mem"
+    `define BOOT_MEM_FILE           "/home/joel/data/repo/hdl/amber/trunk/hw/tests/add.mem"
 `endif
 `ifndef BOOT_MEM_PARAMS_FILE
     `define BOOT_MEM_PARAMS_FILE    "not-defined"
