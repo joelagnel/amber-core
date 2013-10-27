@@ -42,7 +42,7 @@
    mini-libc. This applications compiles in mini-libc
    so it can run stand-alone.
 */   
-#include "stdio.h"
+#include "/home/joel/data/repo/hdl/amber/trunk/sw/mini-libc/stdio.h"
 
 main () 
 {
