@@ -1364,8 +1364,30 @@ assign firq_not_user_mode_nxt = !user_mode_regs_load_nxt && status_bits_mode_nxt
 // ========================================================
 
 // this replicates the current value of the execute signal in the execute stage
+
+
+/*	Joel:
+ *      instruction_execute:
+ *	This signal goes to a steady state after the decoder clock ticks and o_condition
+ *	is latched. Really this signal is the output of the decode stage.
+ *	It predicts if the decoded instruction will be executed. It compares the flags (CPSR) output
+ *	from the execute stage at the end of the current tick, with the flags in the instruction which
+ *	are provided at the end of the decoder tick (in o_condition). If the condition doesn't match,
+ *	then in returns 0.
+ */
 assign instruction_execute = conditional_execute ( o_condition, i_execute_status_bits[31:28] );
 
+/*	Joel:
+ *	instruction_valid:
+ *	This signal tells you if the instruction supplied to the decoder is to be decoded or not
+ *	Its value is meaningful only in the beginning of the decode stage, because the instruction_execute
+ *	in the expression below is only used in the context of the previous instruction. So at this
+ *	point the decoder hasn't gone through its tick.
+ *	This signal is particularly not asserted for multi-cycle instructions such as ldr/str.
+ *	This is because the instruction provided to the decoder in these cases will be ignored.
+ *	In the event we're having a multi-cycle instruction, but it is conditional and the condition
+ *	is not true, then we instruction_valid is still asserted and the next instruction is decoded.
+ */
 assign instruction_valid = (control_state == EXECUTE || control_state == PRE_FETCH_EXEC) ||
                      // when last instruction was multi-cycle instruction but did not execute
                      // because condition was false then act like you're in the execute state
@@ -1462,6 +1484,9 @@ assign instruction_valid = (control_state == EXECUTE || control_state == PRE_FET
             
     // This should come at the end, so that conditional execution works
     // correctly
+
+	/* Joel: if the instruction being supplied to the decoder is not valid,
+ 	 * then the decoder state machine doesn't move */
     if ( instruction_valid )
         begin
         // default is to stay in execute state, or to move into this
