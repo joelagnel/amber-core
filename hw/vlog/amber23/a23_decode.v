@@ -1485,12 +1485,22 @@ assign instruction_valid = (control_state == EXECUTE || control_state == PRE_FET
     // This should come at the end, so that conditional execution works
     // correctly
 
-	/* Joel: if the instruction being supplied to the decoder is not valid,
- 	 * then the decoder state machine doesn't move */
+	/* Joel: This section of code basically says the following:
+	 * If we have decided to decode the instruction supplied to the decoder,
+	 * ONLY then will we consider the instruction bits to decide the next
+         * state. So for example, if the instruction is a load operation, then
+	 * the next state has to be MEM_WAIT1.
+	 * If the instruction is !valid, then the above code will naturally decide the next state  */
     if ( instruction_valid )
         begin
         // default is to stay in execute state, or to move into this
         // state from a conditional execute state
+
+    /* Joel: here we overwrite what's said above, For example, for a load instruction where the control_state is MEM_WAIT1,
+     * basically what we're saying is the control_state can change from wait1 to wait2 naturally in the
+     * next cycle, however if the previous intruction isn't going to be
+     * a multi-cycle instruction (see notes on instruction_valid signal), then next state will be EXECUTE (decoder ready) */
+
         control_state_nxt = EXECUTE;
         
         if ( mem_op )  // load or store word or byte
@@ -1666,8 +1676,8 @@ a23_decompile  u_decompile (
     .i_clk                      ( i_clk                            ),
     .i_fetch_stall              ( i_fetch_stall                    ),
     .i_instruction              ( instruction                      ),
-    .i_instruction_valid        ( instruction_valid                ),
-    .i_instruction_execute      ( instruction_execute              ),
+    .i_instruction_valid        ( instruction_valid                ), // Is the instruction about to be decoded valid?
+    .i_instruction_execute      ( instruction_execute              ), // Will the decoded instruction be executed?
     .i_instruction_address      ( instruction_address              ),
     .i_interrupt                ( {3{interrupt}} & next_interrupt  ),
     .i_interrupt_state          ( control_state == INT_WAIT2       ),

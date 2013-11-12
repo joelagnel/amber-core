@@ -386,6 +386,13 @@ assign write_data_nxt = i_byte_enable_sel == 2'd0 ? rd            :
 // ========================================================
 // Conditional Execution
 // ========================================================
+
+/*
+ * Joel: Before the current tick, this signal tells the execute stage if it
+ * should execute the instruction or not in the tick. It depends on i_condition
+ * which basically is computed in the decode stage.
+ */
+
 assign execute = conditional_execute ( i_condition, status_bits_flags );
             
 // allow the PC to increment to the next instruction when current
