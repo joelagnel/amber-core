@@ -95,6 +95,13 @@ endcase
 end
 endfunction
 
+/*
+ * fgets in verilog returns a line starting from the lower most byte
+ * for example, abcd reading into a 120-byte line size would be
+ * starting from the 120th byte with all nulls (not ascii), followed with abcd
+ * at bytes 3,2,1 and 0. This routine converts the line to having a, b, c and d
+ * at byte 120,119,118,117 followed by nulls all the way till byte 0
+ */
 
 function [120*8-1:0] align_line;   
 input [120*8-1:0] line;
