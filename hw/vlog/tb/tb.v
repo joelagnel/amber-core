@@ -341,6 +341,9 @@ always @ ( posedge `U_SYSTEM.sys_clk )
                         boot_mem_file_data     =   hex_chars_to_32bits (aligned_line[110*8-1:102*8]);
                         
                         `ifdef AMBER_A25_CORE
+			/* Joel: This code basically inserts the 32-bit block that is read, into the correct location
+				of the 128-bit block. I believe the reason is in a25, boot memory is 128-bit addressed
+				possibly due to the width of the wishbone bus */
                             boot_mem_file_data_128 = `U_BOOT_MEM.u_mem.mem[boot_mem_file_address[BOOT_MSB:4]];
                             `U_BOOT_MEM.u_mem.mem[boot_mem_file_address[BOOT_MSB:4]] = 
                                     insert_32_into_128 ( boot_mem_file_address[3:2], 
